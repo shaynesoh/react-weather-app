@@ -2,15 +2,18 @@
 
 A weather app with built with React. Uses the OpenWeatherMap API and Reverse geo location using OpenStreetMap.
 
+View the website here:
+https://moonlit-cat.netlify.app
+
 ### How to run
 
-To get this project up and running, clone the repository and do the following within the root directory:
+Alternatively to get this project up and running locally, clone the repository and do the following within the root directory:
 
  ```bash
  docker-compose up --build
  ```
 
-This will run the app in the development mode.\
+This will run the app in the development mode.
 
 OR
 
