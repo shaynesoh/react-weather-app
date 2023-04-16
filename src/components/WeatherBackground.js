@@ -93,29 +93,29 @@ const WeatherBackground = ({ weather }) => {
           break;
         case 'Clouds':
           colors = [
-            { hex: '#d9e9f5' },
-            { hex: '#b9d6f0' },
-            { hex: '#2698d8' },
-            { hex: '#e0eef9' },
-            { hex: '#8bbbe5' }
+            { hex: '#a4e8fd' },
+            { hex: '#ecf4fc' },
+            { hex: '#e3e0eb' },
+            { hex: '#c6c7db' },
+            { hex: '#26c6f8' }
           ];
           break;
         case 'Drizzle':
           colors = [
-            { hex: '#759bc8' },
-            { hex: '#adc3d1' },
-            { hex: '#aeaeae' },
-            { hex: '#949494' },
+            { hex: '#f4f4f4' },
+            { hex: '#5c7c85' },
+            { hex: '#acd1e4' },
+            { hex: '#d5dade' },
             { hex: '#8cb4cc' }
           ];
           break;
         case 'Rain':
           colors = [
-            { hex: '#36244c' },
-            { hex: '#5e6c89' },
-            { hex: '#34909f' },
-            { hex: '#a9c6c2' },
-            { hex: '#87a1b2' }
+            { hex: '#457694' },
+            { hex: '#5c759e' },
+            { hex: '#96b9cd' },
+            { hex: '#468f84' },
+            { hex: '#a4bfac' }
           ];
           break;
         case 'Thunderstorm':
@@ -129,11 +129,11 @@ const WeatherBackground = ({ weather }) => {
           break;
         case 'Snow':
           colors = [
-            { hex: '#d4e4fc' },
-            { hex: '#c6f0ff' },
-            { hex: '#e4ecf4' },
+            { hex: '#dfe8e7' },
+            { hex: '#c3d6d4' },
+            { hex: '#f0e6e4' },
             { hex: '#d2e3ff' },
-            { hex: '#eaeaea' }
+            { hex: '#f4f4f4' }
           ];
           break;
         case 'Mist':

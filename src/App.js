@@ -46,7 +46,7 @@ function App() {
   };
 
   return (
-    <div className="App flex items-center lg:h-screen overflow-x-hidden py-5">
+    <div className="App flex items-center min-h-screen overflow-x-hidden py-5">
       {isLoading && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-black z-50 flex items-center justify-center">
           <ImSpinner8 className="text-white animate-spin h-12 w-12" />

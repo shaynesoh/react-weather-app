@@ -78,7 +78,7 @@ const CurrentWeather = ({ weather }) => {
           <div className="flex flex-col lg:flex-row items-center gap-x-5 gap-y-2">
             {renderIcon(weather.icon)}
             <p className="font-medium text-6xl md:text-7xl lg:text-8xl blackspace-nowrap">
-              {weather.temp}<span className="font-extralight">°C</span>
+              {weather.temp.toFixed(1)}<span className="font-extralight">°C</span>
             </p>
             <div className="flex flex-row justify-center items-center gap-x-4">
               <div className="flex flex-col">
