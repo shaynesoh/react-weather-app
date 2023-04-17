@@ -46,7 +46,7 @@ function App() {
   };
 
   return (
-    <div className="App flex items-center min-h-screen overflow-x-hidden py-5">
+    <div className="App flex items-center min-h-screen overflow-x-hidden py-5 px-10">
       {isLoading && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-black z-50 flex items-center justify-center">
           <ImSpinner8 className="text-white animate-spin h-12 w-12" />
@@ -58,7 +58,7 @@ function App() {
         </div>
       )}
       <div className="container mx-auto flex flex-col w-full py-10 z-10">
-        <div className="max-w-screen h-fit rounded-xl mb-10 relative z-50 px-10">
+        <div className="max-w-screen h-fit rounded-xl mb-10 relative z-50">
           <SearchBar
             className="rounded-xl mb-10"
             onSubmit={fetchSearchResults}
@@ -67,7 +67,7 @@ function App() {
         </div>
 
         {weather && !isLoading && (
-          <div className="flex flex-col z-10 px-10">
+          <div className="flex flex-col z-10">
             <div className="pb-10">
               <CurrentWeather
                 weather={weather}

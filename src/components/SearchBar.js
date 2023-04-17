@@ -72,7 +72,7 @@ const SearchBar = (props) => {
                 </button>
                 {countrySuggestions.length > 0 && (
                     <div
-                        className="absolute bg-white border border-gray-300 top-12 px-10 z-50"
+                        className="absolute bg-white border border-gray-300 top-12 z-50"
                         style={{ width: "100%" }}
                     >
                         {countrySuggestions.map((country) => (
