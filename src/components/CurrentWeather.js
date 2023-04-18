@@ -17,7 +17,7 @@ const CurrentWeather = ({ weather }) => {
   const [iconSize, setIconSize] = useState(75);
 
   const handleResize = () => {
-    const newSize = window.innerWidth < 1023 ? 200 : 75;
+    const newSize = window.innerWidth < 1024 ? 200 : 75;
     setIconSize(newSize);
   }
 

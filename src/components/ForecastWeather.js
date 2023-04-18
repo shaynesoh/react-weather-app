@@ -7,7 +7,7 @@ function ForecastWeather({ data }) {
   const [iconSize, setIconSize] = useState(50);
 
   const handleResize = () => {
-    const newSize = window.innerWidth < 1023 ? 35 : 50;
+    const newSize = window.innerWidth < 1024 ? 35 : 50;
     setIconSize(newSize);
   }
 
