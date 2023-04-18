@@ -66,14 +66,14 @@ function App() {
           />
         </div>
 
-        {weather && !isLoading && (
+        {weather && (
           <div className="flex flex-col z-10">
             <div className="pb-10">
               <CurrentWeather
                 weather={weather}
               />
             </div>
-            <div className="flex gap-5 mb-5 justify-center md:justify-start">
+            <div className="flex gap-5 mb-5 justify-center lg:justify-start">
               <button
                 className={`px-4 py-2 focus:outline-none ${selectedTab === 'today' ? 'bg-black text-white rounded-full' : ''}`}
                 onClick={() => toggleTab('today')}
