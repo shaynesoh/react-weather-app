@@ -1,188 +1,111 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import Particle from './Particle';
 
-const WeatherBackground = ({ weather }) => {
-  const PI2 = Math.PI * 2;
+const WeatherBackground = React.memo(({ weather }) => {
 
-  class Particle {
-    constructor(x, y, radius, rgb) {
-      this.x = x;
-      this.y = y;
-      this.radius = radius;
-      this.rgb = rgb;
+  const colors = {
+    Clear: [
+      { hex: '#60c3c9' },
+      { hex: '#fdb813' },
+      { hex: '#f27022' },
+      { hex: '#e4f6f8' },
+      { hex: '#01cafe' }
+    ],
+    Clouds: [
+      { hex: '#a4e8fd' },
+      { hex: '#ecf4fc' },
+      { hex: '#e3e0eb' },
+      { hex: '#c6c7db' },
+      { hex: '#26c6f8' }
+    ],
+    Drizzle: [
+      { hex: '#f4f4f4' },
+      { hex: '#5c7c85' },
+      { hex: '#acd1e4' },
+      { hex: '#d5dade' },
+      { hex: '#8cb4cc' }
+    ],
+    Rain: [
+      { hex: '#457694' },
+      { hex: '#5c759e' },
+      { hex: '#96b9cd' },
+      { hex: '#468f84' },
+      { hex: '#a4bfac' }
+    ],
+    Thunderstorm: [
+      { hex: '#4b4c6a' },
+      { hex: '#6c6b8d' },
+      { hex: '#343855' },
+      { hex: '#717171' },
+      { hex: '#5d6d9c' }
+    ],
+    Snow: [
+      { hex: '#dfe8e7' },
+      { hex: '#c3d6d4' },
+      { hex: '#f0e6e4' },
+      { hex: '#d2e3ff' },
+      { hex: '#f4f4f4' }
+    ],
+    Mist: [
+      { hex: '#dfe7ea' },
+      { hex: '#bfd2d9' },
+      { hex: '#a4c0c3' },
+      { hex: '#96a7ae' },
+      { hex: '#7c959c' }
+    ],
+    default: [
+      { hex: '#ffffff' },
+      { hex: '#ffffff' },
+      { hex: '#ffffff' },
+      { hex: '#ffffff' },
+      { hex: '#ffffff' }
+    ]
+  };
 
-      this.vx = Math.random() * 5;
-      this.vy = Math.random() * 5;
-
-      this.sinValue = Math.random();
-    }
-
-    animate(ctx, stageWidth, stageHeight) {
-      this.sinValue += 0.01;
-
-      this.radius += Math.sin(this.sinValue);
-
-      this.x += this.vx;
-      this.y += this.vy;
-
-      if (this.x < 0) {
-        this.vx *= -1;
-        this.x += 10;
-      } else if (this.x > stageWidth) {
-        this.vx *= -1;
-        this.x -= 10;
-      }
-
-      if (this.y < 0) {
-        this.vy *= -1;
-        this.y += 10;
-      } else if (this.y > stageHeight) {
-        this.vy *= -1;
-        this.y -= 10;
-      }
-
-      ctx.beginPath();
-      const g = ctx.createRadialGradient(
-        this.x,
-        this.y,
-        this.radius * 0.01,
-        this.x,
-        this.y,
-        this.radius
-      );
-      g.addColorStop(0, `${this.rgb.hex}FF`);
-      g.addColorStop(1, `${this.rgb.hex}00`);
-      ctx.fillStyle = g
-      ctx.arc(this.x, this.y, this.radius, 0, PI2, false);
-      ctx.fill();
-    }
-  }
-
+  const selectedColors = useMemo(() => colors[weather.main] || colors.default, [weather.main]);
   const canvasRef = useRef(null);
   const pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
+
+  const createParticle = useCallback((ctx, canvasWidth, canvasHeight, particles, selectedColors) => {
+    for (let i = 0; i < 5; i++) {
+      const randomColorIndex = Math.floor(Math.random() * selectedColors.length);
+      const randomColor = selectedColors[randomColorIndex];
+      const item = new Particle(
+        Math.random() * canvasWidth - canvasWidth / 2,
+        Math.random() * canvasHeight - canvasHeight / 2,
+        Math.random() * (900) + 400,
+        randomColor
+      );
+      particles[i] = item;
+    }
+  }, [Particle]);  
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    let particles = [];
+    const particles = new Array(5);
 
-    const stageWidth = document.body.clientWidth;
-    const stageHeight = document.body.clientHeight;
-
-    canvas.width = stageWidth * pixelRatio;
-    canvas.height = stageHeight * pixelRatio;
+    canvas.width = window.innerWidth * pixelRatio;
+    canvas.height = window.innerHeight * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
 
-    ctx.globalCompositeOperation = 'soft-light';
-
-    createParticle();
-    animate();
-
-    function createParticle() {
-      particles = [];
-      let colors = [];
-
-      switch (weather.main) {
-        case 'Clear':
-          colors = [
-            { hex: '#60c3c9' },
-            { hex: '#fdb813' },
-            { hex: '#f27022' },
-            { hex: '#e4f6f8' },
-            { hex: '#01cafe' }
-          ];
-          break;
-        case 'Clouds':
-          colors = [
-            { hex: '#a4e8fd' },
-            { hex: '#ecf4fc' },
-            { hex: '#e3e0eb' },
-            { hex: '#c6c7db' },
-            { hex: '#26c6f8' }
-          ];
-          break;
-        case 'Drizzle':
-          colors = [
-            { hex: '#f4f4f4' },
-            { hex: '#5c7c85' },
-            { hex: '#acd1e4' },
-            { hex: '#d5dade' },
-            { hex: '#8cb4cc' }
-          ];
-          break;
-        case 'Rain':
-          colors = [
-            { hex: '#457694' },
-            { hex: '#5c759e' },
-            { hex: '#96b9cd' },
-            { hex: '#468f84' },
-            { hex: '#a4bfac' }
-          ];
-          break;
-        case 'Thunderstorm':
-          colors = [
-            { hex: '#4b4c6a' },
-            { hex: '#6c6b8d' },
-            { hex: '#343855' },
-            { hex: '#717171' },
-            { hex: '#5d6d9c' }
-          ];
-          break;
-        case 'Snow':
-          colors = [
-            { hex: '#dfe8e7' },
-            { hex: '#c3d6d4' },
-            { hex: '#f0e6e4' },
-            { hex: '#d2e3ff' },
-            { hex: '#f4f4f4' }
-          ];
-          break;
-        case 'Mist':
-          colors = [
-            { hex: '#dfe7ea' },
-            { hex: '#bfd2d9' },
-            { hex: '#a4c0c3' },
-            { hex: '#96a7ae' },
-            { hex: '#7c959c' }
-          ];
-          break;
-        default:
-          colors = [
-            { hex: '#2D4AE3' },
-            { hex: '#FAFF59' },
-            { hex: '#2D4AE3' },
-            { hex: '#FAFF59' },
-            { hex: '#FF68F8' }
-          ];
-      }
-
-      for (let i = 0; i < 10; i++) {
-        const randomColorIndex = Math.floor(Math.random() * colors.length);
-        const randomColor = colors[randomColorIndex];
-        const item = new Particle(
-          Math.random() * canvas.width,
-          Math.random() * canvas.height,
-          Math.random() * (900) + 400,
-          randomColor
-        );
-        particles.push(item);
-      }
-
-    }
+    ctx.translate(canvas.width / 2, canvas.height / 2);
 
     function animate() {
-      window.requestAnimationFrame(animate);
+      ctx.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let i = 0; i < particles.length; i++) {
-        const item = particles[i];
+      particles.forEach((item) => {
         item.animate(ctx, canvas.width, canvas.height);
-      }
+      });
+
+      requestAnimationFrame(animate);
     }
 
-  }, []);
+    createParticle(ctx, canvas.width, canvas.height, particles, selectedColors);
+    requestAnimationFrame(animate);
+  }, [selectedColors, createParticle, pixelRatio]);
 
-  return <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
-}
+  return <canvas key={weather.id} ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
+});
 
 export default WeatherBackground;

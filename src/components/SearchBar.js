@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { fetchSuggestions, fetchCountryFromCoords } from "../services/geoApi";
 
-import { IoMdSearch } from "react-icons/io";
-import { BsFillGeoAltFill } from "react-icons/bs";
+import {ReactComponent as SearchIcon} from "../assets/search.svg";
+import {ReactComponent as GpsIcon} from "../assets/gps.svg";
 
 const SearchBar = (props) => {
     const [searchResults, setSearchResults] = useState("");
@@ -12,7 +12,6 @@ const SearchBar = (props) => {
     const handleChange = async (event) => {
         event.preventDefault();
         setSearchResults(event.target.value);
-
         const input = event.target.value;
         const suggestions = await fetchSuggestions(input);
         setCountrySuggestions(suggestions);
@@ -35,7 +34,6 @@ const SearchBar = (props) => {
         });
     };
 
-
     const handleCountrySuggestionClick = (country) => {
         setSearchResults(country);
         setCountrySuggestions([]);
@@ -51,15 +49,15 @@ const SearchBar = (props) => {
                 >
                     <input
                         onChange={handleChange}
-                        className="placeholder-black font-light w-full bg-transparent focus:outline-none text-black p-2"
+                        className="placeholder-black font-light w-full bg-transparent focus:outline-none text-black"
                         name="location"
                         type="text"
                         placeholder="Type a city name here"
                         autoComplete="off"
                         value={searchResults}
                     />
-                    <button onClick={handleSubmit} className="p-2">
-                        <IoMdSearch size={20} />
+                    <button onClick={handleSubmit} aria-label="search weather">
+                        <SearchIcon fill="#000" width={20}/>
                     </button>
                 </form>
                 <button
@@ -67,12 +65,13 @@ const SearchBar = (props) => {
                         handleGeoSearch(event);
                     }}
                     className="p-4 ml-5 bg-black blackspace-nowrap rounded-lg transition duration-200 ease-in-out hover:bg-gray-600"
+                    aria-label="search by geolocation"
                 >
-                    <BsFillGeoAltFill color="white" />
+                    <GpsIcon fill="#fff" width={20} height={20}/>
                 </button>
                 {countrySuggestions.length > 0 && (
                     <div
-                        className="absolute bg-white border border-gray-300 top-12 px-10 z-50"
+                        className="absolute bg-white border border-gray-300 top-12 z-50"
                         style={{ width: "100%" }}
                     >
                         {countrySuggestions.map((country) => (

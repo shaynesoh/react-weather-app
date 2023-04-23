@@ -11,13 +11,11 @@ import { ReactComponent as Mist } from '../assets/weather-icons/mist.svg';
 import { ReactComponent as ClearNight } from '../assets/weather-icons/clear-night.svg';
 import { ReactComponent as PartlyNight } from '../assets/weather-icons/partly-cloudy-night.svg';
 
-import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
-
 const CurrentWeather = ({ weather }) => {
   const [iconSize, setIconSize] = useState(75);
 
   const handleResize = () => {
-    const newSize = window.innerWidth < 1023 ? 200 : 75;
+    const newSize = window.innerWidth < 1024 ? 200 : 75;
     setIconSize(newSize);
   }
 
@@ -83,13 +81,13 @@ const CurrentWeather = ({ weather }) => {
             <div className="flex flex-row justify-center items-center gap-x-4">
               <div className="flex flex-col">
                 <div className="flex items-center gap-x-2 ">
-                  <BsArrowUp />
+                  <span>&uarr;</span>
                   <p className="font-light text-lg lg:text-xl blackspace-nowrap">
                     Max: <span className="font-semibold">{weather.temp_max.toFixed(1)}</span>°C
                   </p>
                 </div>
                 <div className="flex items-center gap-x-2">
-                  <BsArrowDown />
+                  <span>&darr;</span>
                   <p className="font-light text-lg lg:text-xl blackspace-nowrap">
                     Min: <span className="font-semibold">{weather.temp_min.toFixed(1)}</span>°C
                   </p>
