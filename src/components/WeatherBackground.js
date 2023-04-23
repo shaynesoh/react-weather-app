@@ -85,29 +85,25 @@ const WeatherBackground = React.memo(({ weather }) => {
     const ctx = canvas.getContext('2d');
     const particles = new Array(5);
 
-    const canvasWidth = canvas.offsetWidth;
-    const canvasHeight = canvas.offsetHeight;
-
-    canvas.width = canvasWidth * pixelRatio;
-    canvas.height = canvasHeight * pixelRatio;
-
+    canvas.width = window.innerWidth * pixelRatio;
+    canvas.height = window.innerHeight * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
 
-    ctx.translate(canvasWidth / 2, canvasHeight / 2);
+    ctx.translate(canvas.width / 2, canvas.height / 2);
 
     function animate() {
-      ctx.clearRect(-canvasWidth / 2, -canvasHeight / 2, canvasWidth, canvasHeight);
-    
+      ctx.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+
       particles.forEach((item) => {
-        item.animate(ctx, canvasWidth, canvasHeight);
+        item.animate(ctx, canvas.width, canvas.height);
       });
-    
+
       requestAnimationFrame(animate);
     }
 
-    createParticle(ctx, canvasWidth, canvasHeight, particles, selectedColors);
+    createParticle(ctx, canvas.width, canvas.height, particles, selectedColors);
     requestAnimationFrame(animate);
-  }, [selectedColors, createParticle]);
+  }, [selectedColors, createParticle, pixelRatio]);
 
   return <canvas key={weather.id} ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
 });
