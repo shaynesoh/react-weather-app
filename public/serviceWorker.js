@@ -1,5 +1,5 @@
 const CACHE_NAME = "v1";
-const urlsToCache = [ 'index.html', 'offline.html' ];
+const urlsToCache = [ 'index.html', 'offline.html', '../src/data/countryCodes.js' ];
 
 const self = this;
 
@@ -8,7 +8,6 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('Opened cache');
-
                 return cache.addAll(urlsToCache);
             })
     )
