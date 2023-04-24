@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect, useCallback, lazy, Suspense } from "react";
+import { useState, useEffect, useCallback,lazy, Suspense } from "react";
 
 import SearchBar from "./components/SearchBar.js";
 import CurrentWeather from "./components/CurrentWeather";
