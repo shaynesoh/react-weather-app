@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 
 import SearchBar from "./components/SearchBar.js";
 import CurrentWeather from "./components/CurrentWeather";
@@ -15,7 +15,7 @@ function App() {
   const [selectedTab, setSelectedTab] = useState("today");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const fetchWeather = async () => {
+  const fetchWeather = useCallback(async () => {
     setIsLoading(true);
     setWeather(null);
     setErrorMessage("");
@@ -29,13 +29,14 @@ function App() {
         setIsLoading(false);
       }, 1000);
     }
-  };
-
+  }, [location]);
+  
   useEffect(() => {
     if (location) {
       fetchWeather();
     }
-  }, [location]);
+  }, [location, fetchWeather]);
+  
 
   const fetchSearchResults = (searchResults) => {
     setLocation(searchResults);
