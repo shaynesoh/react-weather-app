@@ -38,6 +38,7 @@ const SearchBar = (props) => {
         setSearchResults(country);
         setCountrySuggestions([]);
         props.onSubmit(country);
+        setSearchResults("");
     };
 
     return (
