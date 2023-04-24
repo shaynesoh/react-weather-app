@@ -87,7 +87,7 @@ const WeatherBackground = React.memo(({ weather }) => {
     canvas.width = window.innerWidth * pixelRatio;
     canvas.height = window.innerHeight * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
-
+  
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((item) => {
@@ -95,10 +95,10 @@ const WeatherBackground = React.memo(({ weather }) => {
       });
       requestAnimationFrame(animate);
     }
-
+  
     createParticle(ctx, canvas.width, canvas.height, particles, selectedColors);
     requestAnimationFrame(animate);
-
+  
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -106,7 +106,7 @@ const WeatherBackground = React.memo(({ weather }) => {
       const newCanvas = document.createElement('canvas');
     }
   }, [selectedColors, createParticle, pixelRatio]);
-
+  
   const handleResize = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -114,7 +114,7 @@ const WeatherBackground = React.memo(({ weather }) => {
     canvas.height = window.innerHeight * pixelRatio;
     ctx.scale(pixelRatio, pixelRatio);
   };
-
+  
   return <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
 });
 export default WeatherBackground;
