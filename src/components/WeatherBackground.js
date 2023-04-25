@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import Particle from './Particle';
 import { colorList } from '../data/colorList';
 
 const WeatherBackground = React.memo(({ weather }) => {
 
-  const selectedColors = useMemo(() => colorList[weather.main] || colorList.default, [colorList, weather.main]);
+  const selectedColors = colorList[weather.main] || colorList.default;
   const canvasRef = useRef(null);
   const pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
 
@@ -21,8 +21,9 @@ const WeatherBackground = React.memo(({ weather }) => {
       particles[i] = item;
     }
   }, []);
-  
-  useEffect(() => {
+
+  const frameRef= useRef(-1);
+  const loop = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const particles = new Array(5);
@@ -35,27 +36,24 @@ const WeatherBackground = React.memo(({ weather }) => {
       particles.forEach((item) => {
         item.animate(ctx, canvas.width, canvas.height);
       });
-      requestAnimationFrame(animate);
+      frameRef.current = requestAnimationFrame(animate);
     }
   
     createParticle(ctx, canvas.width, canvas.height, particles, selectedColors);
-    requestAnimationFrame(animate);
+    frameRef.current = requestAnimationFrame(animate);
   
-    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const newCanvas = document.createElement('canvas');
-    }
-  }, [selectedColors, createParticle, pixelRatio]);
+      cancelAnimationFrame(frameRef.current);
+    };
+  }, [createParticle, pixelRatio, selectedColors]);
   
-  const handleResize = () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth * pixelRatio;
-    canvas.height = window.innerHeight * pixelRatio;
-    ctx.scale(pixelRatio, pixelRatio);
-  };
+  useEffect(() => {
+    frameRef.current = requestAnimationFrame(loop);
+    return () => {
+      cancelAnimationFrame(frameRef.current);
+    }
+  }, [loop]);
   
   return <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
 });
